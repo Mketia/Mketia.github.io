@@ -1,0 +1,36 @@
+title: "The Margin"
+description: "Writing about ideas, craft, and the quiet in-between."
+author:
+  name: "Your Name"
+  email: "you@example.com"
+baseurl: ""
+url: "https://username.github.io"
+
+permalink: /blog/:year/:month/:day/:title/
+
+markdown: kramdown
+highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - github-pages
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
