@@ -1,0 +1,35 @@
+---
+name: Check Links
+
+on:
+  pull_request:
+  schedule:
+    - cron: "0 6 * * *"  # runs daily at 06:00 UTC
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
+
+      - name: Check for broken links
+        run: |
+          bundle exec htmlproofer ./_site \
+            --disable-external=false \
+            --ignore-status-codes "999,429" \
+            --ignore-urls "/localhost/,/127.0.0.1/" \
+            --checks "Links,Images,Scripts" \
+            --enforce-https \
+            --typhoeus-config '{"connecttimeout": 10, "timeout": 30}' \
+            --cache '{"timeframe": {"external": "1d"}}'
